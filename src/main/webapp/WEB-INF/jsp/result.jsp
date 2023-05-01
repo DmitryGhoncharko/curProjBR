@@ -54,13 +54,29 @@
   </div>
   <div class="row h-100">
     <div class="col-md-12 h-100">
+      <h1>Оригинал картинки: </h1>
       <img src="http://127.0.0.1:8000/${sessionScope.imageId}.png">
       <br>
-      <h1>Цвета выявленные на картинке:</h1>
       <br>
-      <c:forEach items="${sessionScope.colors}" var="color">
-        <div style="width: 120px; height: 120px; background: #${color}"></div>
+      <br>
+      <br>
+      <c:forEach items="${sessionScope.imageData}" var="color">
+        <img src="http://127.0.0.1:8000/${color.imageUrl}">
+          <h1>Преобладающий цвет на участке картинки:</h1>
+          <br>
+        <c:forEach items="${color.colors}" var="i">
+            <h6>${i}</h6>
+        </c:forEach>
       </c:forEach>
+        <h6>Вас устраивает ответ который выдала нейросеть ?</h6>
+        <br>
+        <br>
+        <button onclick="resultAdd()">Да</button>              <button onclick="resultAdd()">Нет</button>
+        <script>
+            function resultAdd(){
+                    alert("Ваш ответ записан!")
+            }
+        </script>
       <div class="row">
         <div class="col-md-12">
           <jsp:include page="footer.jsp"></jsp:include>

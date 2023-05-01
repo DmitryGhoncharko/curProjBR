@@ -15,7 +15,7 @@
 <div class="container-fluide">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">
-            <img src="<c:url value="/static/1.jpg"/>" width="70" height="65"
+            <img src="<c:url value="/static/cover.png"/>" width="70" height="65"
                  class="d-inline-block align-top" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
