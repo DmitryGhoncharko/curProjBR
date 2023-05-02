@@ -32,7 +32,7 @@ public class SimpleUserDao implements UserDao {
         try (final Connection connection = connectionPool.getConnection(); final PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD_USER, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, user.getLogin());
             preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setLong(3, user.getUserRole().ordinal());
+            preparedStatement.setLong(3, 1);
             final int countCreatedRows = preparedStatement.executeUpdate();
             final ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
             if (countCreatedRows > 0 && generatedKeys.next()) {

@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="by.webproj.carshowroom.entity.Role" %>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -43,7 +44,7 @@
 </style>
 <html>
 <head>
-  <title>Результат анализа</title>
+  <title>Личный кабинет</title>
 </head>
 <body>
 <div class="container-fluid flex">
@@ -54,29 +55,40 @@
   </div>
   <div class="row h-100">
     <div class="col-md-12 h-100">
-      <h1>Оригинал картинки: </h1>
-      <img src="http://127.0.0.1:8000/${sessionScope.imageId}.png">
-      <br>
-      <br>
-      <br>
-      <br>
-      <c:forEach items="${sessionScope.imageData}" var="color">
-        <img src="http://127.0.0.1:8000/${color.imageUrl}">
-          <h1>Преобладающий цвет на участке картинки:</h1>
-          <br>
-        <c:forEach items="${color.colors}" var="i">
-            <h6>${i}</h6>
-        </c:forEach>
+      <c:forEach var="dt" items="${requestScope.data}">
+        <h6>Курс : ${dt.course}</h6>
+        <h6>Продаем : ${dt.to.name}</h6>
+        <h6>Покупаем : ${dt.from.name}</h6>
+        <br>
+        <c:if test="${not empty sessionScope.user && sessionScope.user.userRole eq Role.ADMIN}">
+          <form method="post" action="/controller?command=delete">
+              <input hidden="hidden" name="id" value="${dt.id}">
+              <button type="submit">Удалить</button>
+          </form>
+        </c:if>
+        <br>
       </c:forEach>
-        <h6>Вас устраивает ответ который выдала нейросеть ?</h6>
-        <br>
-        <br>
-        <button onclick="resultAdd()">Да</button>              <button onclick="resultAdd()">Нет</button>
-        <script>
-            function resultAdd(){
-                    alert("Ваш ответ записан!")
-            }
-        </script>
+       <c:if test="${not empty sessionScope.user && sessionScope.user.userRole eq Role.ADMIN}">
+         <form method="post" action="/controller?command=addData">
+           <label for="ds">Курс</label>
+           <input id="ds" type="number" name="cr">
+           <h6>От</h6>
+           <select name="crName" multiple>
+             <c:forEach items="${requestScope.cr}" var="data">
+               <option value="${data.id}">${data.name}</option>
+             </c:forEach>
+           </select>
+           <h6>К</h6>
+           <select name="crName1" multiple>
+             <c:forEach items="${requestScope.cr}" var="data">
+               <option value="${data.id}">${data.name}</option>
+             </c:forEach>
+           </select>
+           <br>
+           <button type="submit">Создать</button>
+         </form>
+       </c:if>
+
       <div class="row">
         <div class="col-md-12">
           <jsp:include page="footer.jsp"></jsp:include>

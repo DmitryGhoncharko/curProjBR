@@ -99,7 +99,7 @@ public class SimpleUserService implements UserService {
             if (userFromDB.isPresent()) {
                 final User userInstance = userFromDB.get();
                 final String hashedPasswordFromDB = userInstance.getPassword();
-                if (userInstance.getUserRole().equals(Role.CLIENT) && passwordHasher.checkIsEqualsPasswordAndPasswordHash(password, hashedPasswordFromDB)) {
+                if ( passwordHasher.checkIsEqualsPasswordAndPasswordHash(password, hashedPasswordFromDB)) {
                     return userFromDB;
                 }
             }

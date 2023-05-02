@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-
+<%@ page import="by.webproj.carshowroom.entity.Role"%>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
@@ -34,10 +34,11 @@
         <c:choose>
             <c:when test="${not empty sessionScope.user}">
                 <a class="nav-link" href="/controller?command=/" role="button">На главную</a>
-                <a class="nav-link" href="/controller?command=info" role="button">Информация о дальтонизме</a>
-                <a class="nav-link" href="/controller?command=test" role="button">Пройти тест на дальтонизм</a>
-                <a class="nav-link" href="/controller?command=images" role="button">Показать мои загруженные картинки</a>
-                <a class="nav-link" href="/controller?command=analyze" role="button">Анализ картинки</a>
+               <c:if test="${sessionScope.user.userRole eq Role.ADMIN}">
+                   <a class="nav-link" href="/controller?command=curse" role="button">Изменить курсы</a>
+               </c:if>
+                <a class="nav-link" href="/controller?command=cab" role="button">Мой кабинет</a>
+                <a class="nav-link" href="/controller?command=ss" role="button">Посмотреть курсы валют</a>
                 <a class="btn btn-primary" href="/controller?command=logout" role="button">Выйти</a>
             </c:when>
             <c:otherwise>

@@ -24,49 +24,71 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 <style>
-    .flex {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-    }
+  .flex {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
 
-    body {
-        margin: 0;
-        padding: 0
-    }
-    .h100 {
+  body {
+    margin: 0;
+    padding: 0
+  }
+  .h100 {
 
-        flex-grow: 3
-    }
+    flex-grow: 3
+  }
 
 
 </style>
 <html>
 <head>
-    <title>Тест на дальтонизм</title>
+  <title>Личный кабинет</title>
 </head>
 <body>
 <div class="container-fluid flex">
-    <div class="row">
-        <div class="col-md-12">
-            <jsp:include page="header.jsp"></jsp:include>
-        </div>
+  <div class="row">
+    <div class="col-md-12">
+      <jsp:include page="header.jsp"></jsp:include>
     </div>
-    <div class="row h-100">
-        <div class="col-md-12 h-100">
-            <br>
-            <c:forEach items="${requestScope.images}" var="image">
-                <form method="post" action="/controller?command=analyzeImage&open=true">
-                    <img src="http://127.0.0.1:8000/${image.id}.png">
-                    <br>
-                    <input hidden="hidden" name="save" value="false">
-                    <br>
-                    <input hidden="hidden" name="imageId" value="${image.id}">
-                    <button type="submit">Провести анализ картинки</button>
-                </form>
+  </div>
+  <div class="row h-100">
+    <div class="col-md-12 h-100">
+      <c:forEach items="${requestScope.data}" var="d">
+        <form action="/controller?command=upBal" method="post">
+          <h6>Валюта:  ${d.name}</h6>
+          <br>
+          <label for="dd">Колличетсво:</label>
+          <input id="dd" type="number" name="count" value="${d.count}">
+          <input hidden="hidden" name="id" value="${d.id}">
+          <br>
+          <br>
+          <button type="submit">Обновить</button>
+        </form>
+      </c:forEach>
+      <br>
+      <br>
+      <form action="/controller?command=addBal" method="post">
+
+          <h6>Пополнить баланс: </h6>
+          <select name="crName" multiple>
+            <c:forEach items="${requestScope.cr}" var="data">
+            <option value="${data.id}">${data.name}</option>
             </c:forEach>
+          </select>
+          <br>
+          <input type="number" name="countAdd">
+          <br>
+          <button type="submit">Пополнить баланс</button>
+
+      </form>
+      <div class="row">
+        <div class="col-md-12">
+          <jsp:include page="footer.jsp"></jsp:include>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 </body>
 </html>

@@ -31,7 +31,7 @@ public class LoginCommand implements Command {
         }
         final String login = request.getParameter(LOGIN_REQUEST_PARAM_NAME);
         final String password = request.getParameter(PASSWORD_REQUEST_PARAM_NAME);
-        final Optional<User> userFromDatabase = userService.authenticateIfAdmin(login, password);
+        final Optional<User> userFromDatabase = userService.authenticateIfClient(login, password);
         if (userFromDatabase.isPresent()) {
             request.clearSession();
             request.createSession();

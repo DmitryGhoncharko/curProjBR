@@ -1,6 +1,5 @@
 package by.webproj.carshowroom.command;
 
-import by.webproj.carshowroom.command.test.ShowTestPageCommand;
 import by.webproj.carshowroom.controller.RequestFactory;
 import by.webproj.carshowroom.controller.SimpleRequestFactory;
 import by.webproj.carshowroom.model.connection.ConnectionPool;
@@ -19,9 +18,9 @@ public class InitialContext {
     private final PasswordHasher bcryptWithSaltHasher = new BcryptWithSaltHasherImpl();
     private final UserService simpleUserService = new SimpleUserService(simplePageServiceValidator, simplePageDao, bcryptWithSaltHasher);
     private final RequestFactory simpleRequestFactory = new SimpleRequestFactory();
-    private final ImageDao imageDao = new SimpleImageDao(hikariCPConnectionPool);
-    private final ImagesService imagesService = new SimpleImagesService(imageDao);
-
+    private final BalanceDao balanceDao = new SimpleBalanceDao(hikariCPConnectionPool);
+    private final CourseDao courseDao = new SimpleCourseDao(hikariCPConnectionPool);
+    private final DataDao dao = new SimpleDataDao(hikariCPConnectionPool);
     public Command lookup(String commandName) {
 
         switch (commandName) {
@@ -35,21 +34,30 @@ public class InitialContext {
                 return new ShowRegistrationPageCommand(simpleRequestFactory);
             case "registrationcmnd":
                 return new RegistrationCommand(simpleUserService, simpleRequestFactory);
-            case "test":
-                return new ShowTestPageCommand(simpleRequestFactory);
-            case "info":
-                return new ShowInfoPageCommand(simpleRequestFactory);
-            case "images":
-                return new ShowImagesCommand(simpleRequestFactory,imagesService);
-            case "analyze":
-                return new ShowAnalizePageCommand(simpleRequestFactory);
-            case "result":
-                return new ShowResultPageCommand(simpleRequestFactory);
-            case "analyzeImage":
-                return new AnalyzeImageCommand(simpleRequestFactory,imagesService);
-            default:
+            case "cab":
+                return new ShowCabinetPageCommand(simpleRequestFactory,balanceDao,courseDao);
+            case "upBal":
+                return new UpdateBalanceCommand(simpleRequestFactory,balanceDao);
+            case "addBal":
+                return new AddBalanceCommand(simpleRequestFactory,balanceDao);
+            case "update":
+                return new UpdateCommand(simpleRequestFactory,courseDao);
+            case "add":
+                return new AddCommand(simpleRequestFactory,courseDao);
+            case "val":
+                return new ShowCursePage(simpleRequestFactory,courseDao);
+            case "ss":
+                return new SCommand(simpleRequestFactory,dao,courseDao);
+            case "curse":
+                return new ShowCursePage(simpleRequestFactory,courseDao);
+            case "addData":
+                return new AddDataCommand(simpleRequestFactory,dao);
+            case "del":
+                return new DelCommand(simpleRequestFactory,courseDao);
+            case "delete":
+                return new DeleteCommand(simpleRequestFactory,dao);
+                default:
                 return new ShowMainPageCommand(simpleRequestFactory);
         }
-
     }
 }

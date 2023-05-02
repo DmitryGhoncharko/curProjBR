@@ -1,6 +1,7 @@
 package by.webproj.carshowroom.controller;
 
 import by.webproj.carshowroom.command.*;
+import by.webproj.carshowroom.exception.DaoException;
 import by.webproj.carshowroom.exception.ServiceError;
 
 import org.slf4j.Logger;
@@ -34,6 +35,8 @@ public class Controller extends HttpServlet {
         } catch (ServiceError | IOException | ServletException e) {
             LOG.error("Exception in doget method servlet", e);
             throw e;
+        } catch (DaoException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -46,10 +49,12 @@ public class Controller extends HttpServlet {
         } catch (ServiceError | IOException | ServletException e) {
             LOG.error("Service exception in doget method servlet", e);
             throw e;
+        } catch (DaoException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    private void processRequest(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServiceError, IOException, ServletException {
+    private void processRequest(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServiceError, IOException, ServletException, DaoException {
         final String commandName = httpRequest.getParameter(COMMAND_NAME_PARAM);
         final Command command = SERVICE_LOCATOR.getCommand(commandName);
         final CommandRequest commandRequest = REQUEST_FACTORY.createRequest(httpRequest);
