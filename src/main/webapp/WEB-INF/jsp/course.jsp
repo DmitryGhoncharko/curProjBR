@@ -62,18 +62,12 @@
                         <button type="submit">Обновить</button>
                     </form>
 
+                    <form method="post" action="/controller?command=del">
+                        <input hidden="hidden" value="${data.id}" name="id">
+                        <button type="submit">Удалить</button>
+                    </form>
                 <br>
                 </c:forEach>
-            <c:forEach items="${requestScope.course}" var="data">
-                <form method="post" action="/controller?command=del">
-                    <input name="courseName" value="${data.name}">
-                    <input hidden="hidden" value="${data.id}" name="id">
-
-                    <button type="submit">Удалить</button>
-                </form>
-
-                <br>
-            </c:forEach>
             <br>
             <br>
             <form method="post" action="/controller?command=add">
