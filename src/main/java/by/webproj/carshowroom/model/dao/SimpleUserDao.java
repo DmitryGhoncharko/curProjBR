@@ -73,10 +73,31 @@ public class SimpleUserDao implements UserDao {
     }
 
     @Override
-    public List<User> findAllClients() throws DaoException {
+    public List<User> findAll() throws DaoException {
         final List<User> users = new ArrayList<>();
         try(final Connection connection = connectionPool.getConnection(); final Statement statement = connection.createStatement()){
             final ResultSet resultSet = statement.executeQuery(SQL_FIND_ALL_CLIENTS);
+            while (resultSet.next()){
+                final User user = new User.Builder().
+                        withUserId(resultSet.getLong(1)).
+                        withUserLogin(resultSet.getString(2)).
+                        withUserPassword(resultSet.getString(3)).
+                        withUserRole(Role.valueOf(resultSet.getString(4))).
+                        build();
+                users.add(user);
+            }
+        }catch (SQLException e){
+            LOG.error("Cannot find users as clients", e);
+            throw new DaoException("Cannot find users as clients", e);
+        }
+        return users;
+    }
+
+    @Override
+    public List<User> findAllClients() throws DaoException {
+        final List<User> users = new ArrayList<>();
+        try(final Connection connection = connectionPool.getConnection(); final Statement statement = connection.createStatement()){
+            final ResultSet resultSet = statement.executeQuery(SQL_FIND_ALL_CLIENTS + " where user_role_id = 1");
             while (resultSet.next()){
                 final User user = new User.Builder().
                         withUserId(resultSet.getLong(1)).

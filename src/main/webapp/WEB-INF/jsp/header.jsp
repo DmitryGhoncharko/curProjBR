@@ -36,6 +36,8 @@
                 <a class="nav-link" href="/controller?command=/" role="button">На главную</a>
                <c:if test="${sessionScope.user.userRole eq Role.ADMIN}">
                    <a class="nav-link" href="/controller?command=curse" role="button">Изменить курсы</a>
+                   <a class="nav-link" href="/controller?command=stat" role="button">Cтатистика по зарегистрированным пользователям</a>
+
                </c:if>
                 <a class="nav-link" href="/controller?command=cab" role="button">Мой кабинет</a>
                 <a class="nav-link" href="/controller?command=ss" role="button">Посмотреть курсы валют</a>

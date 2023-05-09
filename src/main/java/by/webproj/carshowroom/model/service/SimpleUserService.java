@@ -113,7 +113,7 @@ public class SimpleUserService implements UserService {
     @Override
     public List<User> findAllClients() {
         try {
-            return userDao.findAllClients();
+            return userDao.findAll();
         } catch (DaoException e) {
             LOG.error("Cannot find users as clients", e);
             throw new ServiceError("Cannot find users as clients", e);

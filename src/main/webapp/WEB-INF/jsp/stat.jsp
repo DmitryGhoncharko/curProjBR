@@ -1,7 +1,8 @@
+<%@ page import="java.util.List" %>
+<%@ page import="by.webproj.carshowroom.entity.User" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="by.webproj.carshowroom.entity.Role" %>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -44,7 +45,7 @@
 </style>
 <html>
 <head>
-  <title>Личный кабинет</title>
+  <title>Статистика</title>
 </head>
 <body>
 <div class="container-fluid flex">
@@ -55,40 +56,19 @@
   </div>
   <div class="row h-100">
     <div class="col-md-12 h-100">
-      <a href="/controller?command=ss&sort=true">Сортировать валюты по курсу</a>
-      <c:forEach var="dt" items="${requestScope.data}">
-        <h6>Курс : ${dt.course}</h6>
-        <h6>Продаем : ${dt.to.name}</h6>
-        <h6>Покупаем : ${dt.from.name}</h6>
-        <br>
-        <c:if test="${not empty sessionScope.user && sessionScope.user.userRole eq Role.ADMIN}">
-          <form method="post" action="/controller?command=delete">
-              <input hidden="hidden" name="id" value="${dt.id}">
-              <button type="submit">Удалить</button>
-          </form>
-        </c:if>
-        <br>
-      </c:forEach>
-       <c:if test="${not empty sessionScope.user && sessionScope.user.userRole eq Role.ADMIN}">
-         <form method="post" action="/controller?command=addData">
-           <label for="ds">Курс</label>
-           <input id="ds" type="number" name="cr">
-           <h6>От</h6>
-           <select name="crName" multiple>
-             <c:forEach items="${requestScope.cr}" var="data">
-               <option value="${data.id}">${data.name}</option>
-             </c:forEach>
-           </select>
-           <h6>К</h6>
-           <select name="crName1" multiple>
-             <c:forEach items="${requestScope.cr}" var="data">
-               <option value="${data.id}">${data.name}</option>
-             </c:forEach>
-           </select>
-           <br>
-           <button type="submit">Создать</button>
-         </form>
-       </c:if>
+      <a href="/controller?command=stat&client=true">Отфильтровать и показать только клиентов</a>
+          <%
+            List<User> list = (List<User>) request.getAttribute("data");
+            out.print("<h6> Колличество пользователей " + list.size() + "</h6>");
+            out.print("<br>");
+            out.print("<br>");
+            for(User user : list){
+            out.print("<h6>Логин пользователя " + user.getLogin()  + " </h6>");
+            out.print("<br>");
+            out.print("<h6>Роль пользователя " + user.getUserRole().name()  + " </h6>");
+            out.print("<br>");
+            }
+          %>>
 
       <div class="row">
         <div class="col-md-12">

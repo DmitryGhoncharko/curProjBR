@@ -56,6 +56,8 @@ public class InitialContext {
                 return new DelCommand(simpleRequestFactory,courseDao);
             case "delete":
                 return new DeleteCommand(simpleRequestFactory,dao);
+            case "stat":
+                return new ShowStatPageCommand(simpleRequestFactory,simplePageDao);
                 default:
                 return new ShowMainPageCommand(simpleRequestFactory);
         }

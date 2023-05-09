@@ -9,6 +9,7 @@ import by.webproj.carshowroom.model.dao.CourseDao;
 import by.webproj.carshowroom.model.dao.DataDao;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Comparator;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -20,6 +21,9 @@ public class SCommand implements Command{
     public CommandResponse execute(CommandRequest request) throws ServiceError, DaoException {
         List<Data> data = dao.getAll();
         List<Course> courses= courseDao.getAll();
+        if(request.getParameter("sort")!=null){
+            data.sort(Comparator.comparing(Data::getCourse));
+        }
         request.addAttributeToJsp("data",data);
         request.addAttributeToJsp("cr",courses);
         return requestFactory.createForwardResponse(PagePath.S_PAGE.getPath());
